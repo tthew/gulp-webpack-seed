@@ -6,7 +6,8 @@
  */
 
 'use strict';
-
+var webpack = require('webpack');
+var CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
 module.exports = {
     output: {
         path: "./dist/dev/scripts",
@@ -14,21 +15,31 @@ module.exports = {
         chunkFilename: "[id].chunk.js"
     },
 
+    entry: {
+        infinitescroll: "./scripts/main.js",
+        example: "./scripts/example.jsx",
+        vendor: "./scripts/vendor.js"
+    },
+
+    plugins: [
+        new CommonsChunkPlugin("vendor.js", ['vendor', 'example'])
+    ],
+
     cache: true,
     debug: true,
     devtool: false,
     context: __dirname + '/src',
-    entry: {
-        infinitescroll: "./scripts/main.js",
-        example: "./scripts/example.jsx"
-    },
+
 
     stats: {
         colors: true,
         reasons: true
     },
 
-
+    resolve: {
+        // Allow to omit extensions when requiring these files
+        extensions: ['', '.js', '.jsx']
+    },
 
     module: {
         preLoaders: [
@@ -40,6 +51,9 @@ module.exports = {
         ],
 
         loaders: [
+            {
+                test: /\.jsx$/,
+                loader: 'jsx' },
             {
                 test: /\.css$/,
                 loader: 'style!css'
@@ -62,4 +76,5 @@ module.exports = {
             }
         ]
     }
-};
+}
+;

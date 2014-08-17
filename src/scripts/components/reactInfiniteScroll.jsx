@@ -3,7 +3,7 @@
  */
 'use strict';
 
-var React = require('react/addons');
+var React = require('react');
 function topPosition(domElt) {
     if (!domElt) {
         return 0;

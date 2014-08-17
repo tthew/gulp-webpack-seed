@@ -4,7 +4,7 @@
 
 var React = require('react/addons');
 var InfiniteScroll = require('./reactInfiniteScroll.jsx')();
-var moment = require('moment/moment');
+var moment = require('moment');
 var _ = require('lodash');
 
 var i = 0;
@@ -63,6 +63,6 @@ var Wrapper = function () {
             </InfiniteScroll>)
         }
     });
-}
+};
 
 module.exports = Wrapper;

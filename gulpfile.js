@@ -20,10 +20,12 @@ gulp.task("build-dev", ["webpack:build-dev"], function () {
 });
 
 // Production build
-gulp.task("build", ["webpack:build"]);
+gulp.task("build", ["webpack:build-prod"]);
+gulp.task("build-dev", ["webpack:build-dev"]);
+gulp.task("build-prod", ["webpack:build-prod"]);
 
-gulp.task("clean-dist", function () {
-    gulp.src('./dist').pipe(clean())
+gulp.task("clean-dist", function (cb) {
+    gulp.src(['./dist/**/*', '!./dist/.git/**/*']).pipe(clean()).on('finish', cb)
 });
 
 gulp.task("copy-src", function () {
@@ -31,18 +33,14 @@ gulp.task("copy-src", function () {
 });
 
 gulp.task("build-all", function (callback) {
-    runSequence("clean-dist", ["webpack:build-dev", "webpack:build"], "copy-src", callback)
+    runSequence("clean-dist", ["build-dev", "build-prod"], "copy-src", callback)
 });
 
-gulp.task("build-dev", ["webpack:build-dev"]);
-gulp.task("build-prod", ["webpack:build-prod"]);
-
-
-gulp.task("cleandist", function () {
+gulp.task("clean-prod-dist", function () {
     gulp.src('./dist/prod').pipe(clean());
 });
 
-gulp.task("webpack:build", ['cleandist'], function (callback) {
+gulp.task("webpack:build-prod", ['clean-prod-dist'], function (callback) {
     // modify some webpack config options
     var myConfig = Object.create(webpackConfigDist);
     myConfig.plugins = myConfig.plugins.concat(
@@ -58,8 +56,8 @@ gulp.task("webpack:build", ['cleandist'], function (callback) {
 
     // run webpack
     webpack(myConfig, function (err, stats) {
-        if (err) throw new gutil.PluginError("webpack:build", err);
-        gutil.log("[webpack:build]", stats.toString({
+        if (err) throw new gutil.PluginError("webpack:build-prod", err);
+        gutil.log("[webpack:build-prod]", stats.toString({
             colors: true
         }));
         gulp.src([ '!src/scripts/**', 'src/**/*']).pipe(gulp.dest('./dist/prod'));
@@ -113,3 +111,9 @@ gulp.task("webpack-dev-server", function (callback) {
             gutil.log("[webpack-dev-server]", "http://localhost:8080/webpack-dev-server/index.html");
         });
 });
+
+// Handle the error
+function errorHandler (error) {
+    console.log(error.toString());
+    this.emit('end');
+}

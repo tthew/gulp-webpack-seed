@@ -7,7 +7,7 @@
 'use strict';
 
 var webpack = require('webpack');
-
+var CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
 module.exports = {
     output: {
         publicPatch: 'dist/prod/',
@@ -21,7 +21,8 @@ module.exports = {
     context: __dirname + '/src',
     entry: {
         infinitescroll: "./scripts/main.js",
-        example: "./scripts/example.jsx"
+        example: "./scripts/example.jsx",
+        vendor: "./scripts/vendor.js"
     },
 
     stats: {
@@ -30,6 +31,7 @@ module.exports = {
     },
 
     plugins: [
+        new CommonsChunkPlugin('vendor.js', 'vendor.js', Infinity),
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.UglifyJsPlugin(),
         new webpack.optimize.OccurenceOrderPlugin(),
