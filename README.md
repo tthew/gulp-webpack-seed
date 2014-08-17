@@ -10,6 +10,7 @@ clone this repo
 ```bash
 npm i
 ```
+<!---
 #OR Use by package managers
 ## via npm 
 ```bash
@@ -20,6 +21,7 @@ npm install react-infinite-scroll-webpack
 ```bash
 bower install react-infinite-scroll
 ```
+--->
 
 ##Some Webpack livereload magic
 Just run
