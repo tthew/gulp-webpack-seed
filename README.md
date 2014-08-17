@@ -12,6 +12,16 @@ npm i
 gulp
 ```
 
+## Or via npm 
+```bash
+npm install react-infinite-scroll-webpack
+```
+
+## Or via bower
+```bash
+bower install react-infinite-scroll
+```
+
 to build
 ```bash
 gulp build-all
