@@ -28,14 +28,14 @@ Just run
 ```bash
 gulp
 ```
-to use Webpack dev server
-you can play with source code and it will be livereloaded on change
+to use Webpack dev server.
+You can play with source code and it will be livereloaded on change.
 
 ##Usual build
 ```bash
 gulp build-all
 ```
-you can also build prod and dev separately
+You can also build prod and dev separately.
 
 ```bash
 gulp build-prod
