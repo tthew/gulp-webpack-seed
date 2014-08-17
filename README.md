@@ -3,26 +3,33 @@
 I am a big fan of gulp and sadly I did not found any gulp webpack seed project, so I made one.
 This seed based on [React Infinite Scroll component](https://github.com/lapanoid/react-infinite-scroll)
 
-##How to Use It
+##Install
 
 clone this repo
 
 ```bash
 npm i
-gulp
 ```
-
-## Or via npm 
+#OR Use by package managers
+## via npm 
 ```bash
 npm install react-infinite-scroll-webpack
 ```
 
-## Or via bower
+## via bower
 ```bash
 bower install react-infinite-scroll
 ```
 
-to build
+##Some Webpack livereload magic
+Just run
+```bash
+gulp
+```
+to use Webpack dev server
+you can play with source code and it will be livereloaded on change
+
+##Usual build
 ```bash
 gulp build-all
 ```
@@ -32,10 +39,8 @@ you can also build prod and dev separately
 gulp build-prod
 gulp build-dev
 ```
-check dist folder then
+after build check dist folder for index.html 
+
 
 ##TODO
 Bump version gulp tasks for bower and npm (with publishing)
-
-
-
