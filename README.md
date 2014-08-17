@@ -35,9 +35,7 @@ gulp build-dev
 check dist folder then
 
 ##TODO
-Webpack generate solid bundle called **infinitescroll.js**, which already contains all its dependencies. 
-I am planing to split bundles in future. (When I figure out how to do it)
-
+Bump version tasks for bower and npm (with publishing)
 
 
 
