@@ -41,8 +41,8 @@ You can also build prod and dev separately.
 gulp build-prod
 gulp build-dev
 ```
-After build check dist folder for index.html 
+Check dist folder for index.html after build.
 
 
 ##TODO
-Bump version gulp tasks for bower and npm (with publishing)
+Bump version gulp tasks for bower and npm (with publishing).
