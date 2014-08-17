@@ -35,7 +35,7 @@ gulp build-dev
 check dist folder then
 
 ##TODO
-Bump version tasks for bower and npm (with publishing)
+Bump version gulp tasks for bower and npm (with publishing)
 
 
 
