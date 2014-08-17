@@ -41,7 +41,7 @@ You can also build prod and dev separately.
 gulp build-prod
 gulp build-dev
 ```
-after build check dist folder for index.html 
+After build check dist folder for index.html 
 
 
 ##TODO
