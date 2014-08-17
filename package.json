@@ -12,7 +12,6 @@
     "lodash": "latest"
   },
   "devDependencies": {
-    "open": "latest",
     "css-loader": "~0.6.6",
     "gulp": "latest",
     "gulp-clean": "latest",
@@ -27,6 +26,7 @@
     "karma-script-launcher": "~0.1.0",
     "karma-webpack-plugin": "~1.0.0",
     "load-grunt-tasks": "~0.4.0",
+    "open": "latest",
     "run-sequence": "^0.3.6",
     "style-loader": "~0.6.3",
     "url-loader": "~0.5.4",

@@ -3,9 +3,10 @@ var gutil = require("gulp-util");
 var webpack = require("webpack");
 var WebpackDevServer = require("webpack-dev-server");
 var webpackConfig = require("./webpack.config.js");
-var webpackConfigDist = require("./webpack.dist.config.js");
+var webpackConfigDist = require("./webpack.prod.config.js");
 var clean = require('gulp-clean');
 var open = require("open");
+var runSequence = require('run-sequence');
 
 // The development server (the recommended option for development)
 gulp.task("default", ["webpack-dev-server"]);
@@ -14,17 +15,34 @@ gulp.task("default", ["webpack-dev-server"]);
 // Advantage: No server required, can run app from filesystem
 // Disadvantage: Requests are not blocked until bundle is available,
 //               can serve an old app on refresh
-gulp.task("build-dev", ["webpack:build-dev"], function() {
+gulp.task("build-dev", ["webpack:build-dev"], function () {
     gulp.watch(["app/**/*"], ["webpack:build-dev"]);
 });
 
 // Production build
 gulp.task("build", ["webpack:build"]);
-gulp.task("cleandist", function () {
-    gulp.src('./dist').pipe(clean());
+
+gulp.task("clean-dist", function () {
+    gulp.src('./dist').pipe(clean())
 });
 
-gulp.task("webpack:build", ['cleandist'], function(callback) {
+gulp.task("copy-src", function () {
+    gulp.src(['src/**/*']).pipe(gulp.dest('./dist/src'))
+});
+
+gulp.task("build-all", function (callback) {
+    runSequence("clean-dist", ["webpack:build-dev", "webpack:build"], "copy-src", callback)
+});
+
+gulp.task("build-dev", ["webpack:build-dev"]);
+gulp.task("build-prod", ["webpack:build-prod"]);
+
+
+gulp.task("cleandist", function () {
+    gulp.src('./dist/prod').pipe(clean());
+});
+
+gulp.task("webpack:build", ['cleandist'], function (callback) {
     // modify some webpack config options
     var myConfig = Object.create(webpackConfigDist);
     myConfig.plugins = myConfig.plugins.concat(
@@ -39,12 +57,12 @@ gulp.task("webpack:build", ['cleandist'], function(callback) {
     );
 
     // run webpack
-    webpack(myConfig, function(err, stats) {
-        if(err) throw new gutil.PluginError("webpack:build", err);
+    webpack(myConfig, function (err, stats) {
+        if (err) throw new gutil.PluginError("webpack:build", err);
         gutil.log("[webpack:build]", stats.toString({
             colors: true
         }));
-        gulp.src([ '!src/scripts/**', 'src/**/*']).pipe(gulp.dest('./dist'));
+        gulp.src([ '!src/scripts/**', 'src/**/*']).pipe(gulp.dest('./dist/prod'));
         callback();
     });
 });
@@ -57,18 +75,24 @@ myDevConfig.debug = true;
 // create a single instance of the compiler to allow caching
 var devCompiler = webpack(myDevConfig);
 
-gulp.task("webpack:build-dev", function(callback) {
+gulp.task("cleandevdist", function () {
+    gulp.src('./dist/dev').pipe(clean());
+});
+
+
+gulp.task("webpack:build-dev", ['cleandevdist'], function (callback) {
     // run webpack
-    devCompiler.run(function(err, stats) {
-        if(err) throw new gutil.PluginError("webpack:build-dev", err);
+    devCompiler.run(function (err, stats) {
+        if (err) throw new gutil.PluginError("webpack:build-dev", err);
         gutil.log("[webpack:build-dev]", stats.toString({
             colors: true
         }));
+        gulp.src([ '!src/scripts/**', 'src/**/*']).pipe(gulp.dest('./dist/dev'));
         callback();
     });
 });
 
-gulp.task("webpack-dev-server", function(callback) {
+gulp.task("webpack-dev-server", function (callback) {
     // modify some webpack config options
     var myConfig = Object.create(webpackConfig);
     myConfig.devtool = "eval";
@@ -81,8 +105,8 @@ gulp.task("webpack-dev-server", function(callback) {
         stats: {
             colors: true
         }
-    }).listen(8080, "localhost", function(err) {
-            if(err) throw new gutil.PluginError("webpack-dev-server", err);
+    }).listen(8080, "localhost", function (err) {
+            if (err) throw new gutil.PluginError("webpack-dev-server", err);
 
             open("http://localhost:8080/webpack-dev-server/index.html");
 

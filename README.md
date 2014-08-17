@@ -14,6 +14,20 @@ gulp
 
 to build
 ```bash
-gulp build
+gulp build-all
+```
+you can also build prod and dev separately
+
+```bash
+gulp build-prod
+gulp build-dev
 ```
 check dist folder then
+
+##TODO
+Webpack generate solid bundle called **infinitescroll.js**, which already contains all its dependencies. 
+I am planing to split bundles in future. (When I figure out how to do it)
+
+
+
+
